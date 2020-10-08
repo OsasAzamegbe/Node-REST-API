@@ -9,8 +9,20 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
-    console.log(`Body: ${JSON.stringify(req.body)}`)
-    res.status(201).send(`Ok`)
+    const body = req.body
+    const post = new Post({
+        title: body.title,
+        content: body.content
+    })
+
+    post.save().then(
+        data => {
+            res.json(data)
+        }
+    )
+    .catch(err => {
+        res.json({"message": err})
+    })
 })
 
 
