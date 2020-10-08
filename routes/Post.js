@@ -3,7 +3,7 @@ const Post = require('../models/Post')
 
 const router = express.Router()
 
-// GET ALL POSTS FROM SERVICE
+// GET ALL POSTS FROM THE SERVICE
 router.get('/', async (req, res) => {
     try{
         const posts = await Post.find()
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     
 })
 
-//GET A SPECIFIC POST FROM SERVICE WITH THE POST ID
+//GET A SPECIFIC POST FROM THE SERVICE USING THE POST'S ID
 router.get('/:id', async(req, res) =>{
     try{
         const post = await Post.findById(req.params.id)
@@ -25,7 +25,7 @@ router.get('/:id', async(req, res) =>{
 })
 
 
-//SUBMIT A POST TO SERVICE
+//SUBMIT A POST TO THE SERVICE
 router.post('/', async (req, res) => {
 
     try {
@@ -41,6 +41,18 @@ router.post('/', async (req, res) => {
         res.status(500).json({message: err})
     }
     
+})
+
+
+//DELETE A POST FROM THE SERVICE USING THE POST'S ID
+router.delete('/:id', async (req, res) => {
+    try{
+        console.log(req.params.id)
+        const deletedPost = await Post.deleteOne({_id: req.params.id})
+        res.json({deleted: deletedPost})
+    } catch (err) {
+        res.status(500).json({message: err})
+    }
 })
 
 
