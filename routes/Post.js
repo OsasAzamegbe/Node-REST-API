@@ -3,11 +3,29 @@ const Post = require('../models/Post')
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-    res.send('Welcome to the Posts route')
+// GET ALL POSTS FROM SERVICE
+router.get('/', async (req, res) => {
+    try{
+        const posts = await Post.find()
+        res.status(200).json({posts})
+    } catch(err){
+        res.status(500).json({message: err})
+    }
+    
+})
+
+//GET A SPECIFIC POST FROM SERVICE WITH THE POST ID
+router.get('/:id', async(req, res) =>{
+    try{
+        const post = await Post.findById(req.params.id)
+        res.status(200).json({post})
+    } catch(err){
+        res.status(500).json({message: err})
+    }
 })
 
 
+//SUBMIT A POST TO SERVICE
 router.post('/', async (req, res) => {
 
     try {
@@ -17,10 +35,10 @@ router.post('/', async (req, res) => {
             content: body.content
         })
         const savedPost = await post.save()
-        res.status(201).json(savedPost)
+        res.status(201).json({post: savedPost})
 
     } catch(err){
-        res.status(500).json(err)
+        res.status(500).json({message: err})
     }
     
 })
