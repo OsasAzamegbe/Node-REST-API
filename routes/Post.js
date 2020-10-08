@@ -8,21 +8,21 @@ router.get('/', (req, res) => {
 })
 
 
-router.post('/', (req, res) => {
-    const body = req.body
-    const post = new Post({
-        title: body.title,
-        content: body.content
-    })
+router.post('/', async (req, res) => {
 
-    post.save().then(
-        data => {
-            res.json(data)
-        }
-    )
-    .catch(err => {
-        res.json({"message": err})
-    })
+    try {
+        const body = req.body
+        const post = new Post({
+            title: body.title,
+            content: body.content
+        })
+        const savedPost = await post.save()
+        res.status(201).json(savedPost)
+
+    } catch(err){
+        res.status(500).json(err)
+    }
+    
 })
 
 
