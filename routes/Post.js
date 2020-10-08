@@ -47,10 +47,33 @@ router.post('/', async (req, res) => {
 //DELETE A POST FROM THE SERVICE USING THE POST'S ID
 router.delete('/:id', async (req, res) => {
     try{
-        console.log(req.params.id)
         const deletedPost = await Post.deleteOne({_id: req.params.id})
-        res.json({deleted: deletedPost})
+        res.json({deletedPost})
+
     } catch (err) {
+        res.status(500).json({message: err})
+    }
+})
+
+
+//UPDATE A POST ON THE SERVICE USING THE POST'S ID
+router.patch('/:id', async (req, res) => {
+    try{
+        const body = req.body
+        const post = await Post.findById(req.params.id)
+
+        if (body.title) {
+            post.title = body.title
+        }
+        if (body.content) {
+            post.content = body.content
+        }
+        
+        const updatedPost = await post.save()
+
+        res.json({updatedPost})
+
+    } catch(err) {
         res.status(500).json({message: err})
     }
 })

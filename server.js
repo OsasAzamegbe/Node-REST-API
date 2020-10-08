@@ -35,4 +35,4 @@ mongoose.connect(`mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@cluster0.yttoy.mon
 })
 
 //SERVER LISTEN
-app.listen(PORT, ()=> {`Server started on port ${PORT}`})
+app.listen(PORT)
